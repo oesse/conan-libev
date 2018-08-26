@@ -1,0 +1,13 @@
+find_path(LIBEV_INCLUDE_DIRS NAMES ev.h PATHS include)
+find_library(LIBEV_LIBRARIES NAMES ev libev PATHS lib)
+
+include(FindPackageHandleStandardArgs)
+
+find_package_handle_standard_args(LIBEV REQUIRED_VARS LIBEV_LIBRARIES LIBEV_INCLUDE_DIRS)
+
+if(NOT TARGET Libev::Ev)
+    add_library(Libev::Ev INTERFACE IMPORTED)
+    set_property(TARGET Libev::Ev PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${LIBEV_INCLUDE_DIRS})
+    set_property(TARGET Libev::Ev PROPERTY INTERFACE_LINK_LIBRARIES ${LIBEV_LIBRARIES})
+    set_property(TARGET Libev::Ev PROPERTY INTERFACE_COMPILE_DEFINITIONS ${CONAN_COMPILE_DEFINITIONS_LIBEV})
+endif()
